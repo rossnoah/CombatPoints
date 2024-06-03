@@ -1,0 +1,6 @@
+name: CombatPoints
+version: '${project.version}'
+main: dev.noah.combatpoints.CombatPoints
+api-version: '1.20'
+softdepend:
+  - PlaceholderAPI
