@@ -9,4 +9,6 @@ messages:
   points:
     self: "<green>You have <white>%points% <green>points."
     other: "<green>%player% has <white>%points% <green>points."
+  onkill: "<green>You have gained <white>%points% <green>points for killing <white>%player%<green>."
 
+send-on-kill: true

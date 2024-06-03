@@ -1,12 +1,12 @@
 package dev.noah.combatpoints;
 
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -25,6 +25,12 @@ public class DeathListener implements Listener {
     1000 players, 1000 unique kills each = 1000*1000*(32+8)*2 = 80MB maximum before server restart
     In practice it will be much much less than this.
      */
+
+    private CombatPoints plugin;
+
+    public DeathListener(CombatPoints plugin){
+        this.plugin = plugin;
+    }
 
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
@@ -57,6 +63,9 @@ public class DeathListener implements Listener {
         int currentPoints = PDCUtils.getPoints(killer);
         PDCUtils.setPoints(killer,currentPoints+pointsEarned);
 
+        if(plugin.getConfig().getBoolean("send-on-kill")) {
+            killer.sendMessage(MiniMessage.miniMessage().deserialize(plugin.getConfig().getString("messages.onkill").replace("%points%", String.valueOf(pointsEarned)).replace("%player%", killed.getName())));
+        }
 
     }
 
@@ -88,11 +97,11 @@ public class DeathListener implements Listener {
     private int calcMaterialPoints(ItemStack item){
         //check if it's a piece of diamond armor (boots, leggings, chestplate, helmet)
         if(item.getType() == Material.DIAMOND_BOOTS || item.getType() == Material.DIAMOND_LEGGINGS || item.getType() == Material.DIAMOND_CHESTPLATE || item.getType() == Material.DIAMOND_HELMET){
-            return 100;
+            return 50;
         }
         //200 points for netherite armor
         if(item.getType() == Material.NETHERITE_BOOTS || item.getType() == Material.NETHERITE_LEGGINGS || item.getType() == Material.NETHERITE_CHESTPLATE || item.getType() == Material.NETHERITE_HELMET){
-            return 200;
+            return 100;
         }
 
         return 0;
@@ -114,10 +123,10 @@ public class DeathListener implements Listener {
             int level = entry.getValue();
 
             if(enchantment == Enchantment.PROTECTION_EXPLOSIONS || enchantment == Enchantment.PROTECTION_ENVIRONMENTAL){
-                points += level * 200;
+                points += level * 30;
                 //double points for protection and blast protection
             }else{
-                points += level * 100;
+                points += level * 10;
                 //normal 100 points per level
             }
 
