@@ -1,0 +1,12 @@
+
+# Customize the messages using MiniMessage format.
+# %player% - The player's name.
+# %points% - The player's points.
+
+messages:
+  no-permission: "<red>You do not have permission to use this command."
+  no-console: "<red>You cannot use this command from the console without specifying a player."
+  points:
+    self: "<green>You have <white>%points% <green>points."
+    other: "<green>%player% has <white>%points% <green>points."
+

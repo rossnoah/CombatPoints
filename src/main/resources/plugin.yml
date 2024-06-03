@@ -4,3 +4,20 @@ main: dev.noah.combatpoints.CombatPoints
 api-version: '1.20'
 softdepend:
   - PlaceholderAPI
+
+commands:
+  combatpoints:
+    description: Check a player's combat points.
+    usage: /<command>
+    permission: combatpoints.command
+
+permissions:
+    combatpoints.command:
+        description: Allows the player to check their combat points.
+        default: op
+    combatpoints.command.other:
+        description: Allows the player to check another player's combat points.
+        default: op
+    combatpoints.command.self:
+        description: Allows the player to check their own combat points.
+        default: op
