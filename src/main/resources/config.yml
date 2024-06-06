@@ -12,6 +12,9 @@ messages:
   onkill: "<green>You have gained <white>%points% <green>points for killing <white>%player%<green>."
 
 send-on-kill: true
+death-message:
+  modify: true
+  addition: " (%points% points)"
 
 sqlite:
   file: "combatpoints.db"

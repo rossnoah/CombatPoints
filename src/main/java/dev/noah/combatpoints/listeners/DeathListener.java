@@ -73,6 +73,10 @@ public class DeathListener implements Listener {
             killer.sendMessage(MiniMessage.miniMessage().deserialize(plugin.getConfig().getString("messages.onkill").replace("%points%", String.valueOf(pointsEarned)).replace("%player%", killed.getName())));
         }
 
+        if(plugin.getConfig().getBoolean("death-message.modify")) {
+            event.deathMessage(event.deathMessage().append(MiniMessage.miniMessage().deserialize(plugin.getConfig().getString("death-message.addition").replace("%points%", String.valueOf(pointsEarned)).replace("%player%", killed.getName()))));
+        }
+
     }
 
 
