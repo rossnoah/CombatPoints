@@ -1,5 +1,6 @@
 package dev.noah.combatpoints;
 
+import dev.noah.combatpoints.util.DataUtils;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -27,7 +28,7 @@ public class CombatPointsCommand implements CommandExecutor {
                     return true;
                 }
                 Player player = (Player) commandSender;
-                int points = PDCUtils.getPoints(player);
+                int points = DataUtils.getPoints(player);
                 player.sendMessage(miniMessage.deserialize(plugin.getConfig().get("messages.points.self").toString().replace("%points%",String.valueOf(points))));
                 return true;
             }else{
@@ -44,7 +45,7 @@ public class CombatPointsCommand implements CommandExecutor {
                     commandSender.sendMessage("Player not found.");
                     return true;
                 }
-                int points = PDCUtils.getPoints(target);
+                int points = DataUtils.getPoints(target);
                 commandSender.sendMessage(miniMessage.deserialize(plugin.getConfig().get("messages.points.other").toString().replace("%player%",target.getName()).replace("%points%",String.valueOf(points))));
                 return true;
             }

@@ -1,5 +1,7 @@
-package dev.noah.combatpoints;
+package dev.noah.combatpoints.listeners;
 
+import dev.noah.combatpoints.CombatPoints;
+import dev.noah.combatpoints.util.DataUtils;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -44,12 +46,16 @@ public class DeathListener implements Listener {
 
 
         //check if they have the same IP, then return as this is likely abuse
-        if (isSameIP(killed, killer)) {
-            return;
+        if(plugin.getConfig().getBoolean("checks.ip")) {
+            if (isSameIP(killed, killer)) {
+                return;
+            }
         }
 
-        if(hasKilledRecently(killer,killed)){
-            return;
+        if(plugin.getConfig().getBoolean("checks.recent")) {
+            if (hasKilledRecently(killer, killed)) {
+                return;
+            }
         }
 
 
@@ -60,8 +66,8 @@ public class DeathListener implements Listener {
         }
 
         addKill(killer,killed);
-        int currentPoints = PDCUtils.getPoints(killer);
-        PDCUtils.setPoints(killer,currentPoints+pointsEarned);
+        int currentPoints = DataUtils.getPoints(killer);
+        DataUtils.setPoints(killer,currentPoints+pointsEarned);
 
         if(plugin.getConfig().getBoolean("send-on-kill")) {
             killer.sendMessage(MiniMessage.miniMessage().deserialize(plugin.getConfig().getString("messages.onkill").replace("%points%", String.valueOf(pointsEarned)).replace("%player%", killed.getName())));

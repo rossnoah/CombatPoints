@@ -1,6 +1,7 @@
 package dev.noah.combatpoints;
 
 
+import dev.noah.combatpoints.util.DataUtils;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -45,7 +46,7 @@ public class CombatPointsPlaceholder extends PlaceholderExpansion {
             }
 
             Player player = offlinePlayer.getPlayer();
-            return String.valueOf(PDCUtils.getPoints(player));
+            return String.valueOf(DataUtils.getPoints(player));
 
         }
 

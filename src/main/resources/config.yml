@@ -12,3 +12,10 @@ messages:
   onkill: "<green>You have gained <white>%points% <green>points for killing <white>%player%<green>."
 
 send-on-kill: true
+
+sqlite:
+  file: "combatpoints.db"
+
+checks:
+  ip: true
+  recent: true

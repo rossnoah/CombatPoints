@@ -1,15 +1,26 @@
 package dev.noah.combatpoints;
 
+import dev.noah.combatpoints.listeners.DeathListener;
+import dev.noah.combatpoints.listeners.SaveLoadListener;
+import dev.noah.combatpoints.util.DataUtils;
+import dev.noah.combatpoints.util.SQLite;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class CombatPoints extends JavaPlugin {
 
+    private SQLite sqlite;
+
     @Override
     public void onEnable() {
         // Plugin startup logic
 
+
         this.saveDefaultConfig();
+
+        sqlite = new SQLite(this);
+        sqlite.createTable();
+
 
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) { //
             new CombatPointsPlaceholder(this).register(); //
@@ -18,6 +29,7 @@ public final class CombatPoints extends JavaPlugin {
         }
 
         Bukkit.getPluginManager().registerEvents(new DeathListener(this),this);
+        Bukkit.getPluginManager().registerEvents(new SaveLoadListener(this),this);
         getCommand("combatpoints").setExecutor(new CombatPointsCommand(this));
 
     }
@@ -25,5 +37,13 @@ public final class CombatPoints extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        for(String key : DataUtils.getPointsMap().keySet()){
+            sqlite.setPoints(key,DataUtils.getPointsMap().get(key));
+        }
+        sqlite.close();
+    }
+
+    public SQLite getSQLite(){
+        return sqlite;
     }
 }
