@@ -16,10 +16,16 @@ public final class CombatPoints extends JavaPlugin {
         // Plugin startup logic
 
 
+
         this.saveDefaultConfig();
 
         sqlite = new SQLite(this);
         sqlite.createTable();
+
+        //load data for online players
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            DataUtils.setPoints(player,sqlite.getPoints(player.getUniqueId().toString()));
+        });
 
 
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) { //
